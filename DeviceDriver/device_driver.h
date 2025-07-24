@@ -1,6 +1,6 @@
 #pragma once
 #include "flash_memory_device.h"
-#include <stdexcept>
+
 class DeviceDriver
 {
 public:
@@ -10,13 +10,28 @@ public:
 
 protected:
     FlashMemoryDevice* m_hardware;
+
+private:
+    void writePreconditionCheck(long address);
+    void readPostConditionCheck(long address, int read);
 };
 
-class ReadFailException : public std::exception {
+class Application {
 public:
-};
+    Application(DeviceDriver* dd) : dd{ dd } {}
 
-class WriteFailException : public std::exception {
-public:
+    void readAndprint(long startAddr, long endAddr) {
+        for (long addr = startAddr; addr <= endAddr; addr++) {
+            dd->read(addr);
+        }
+    }
 
+    void writeAll(unsigned char value) {
+        for (long addr = 0x00; addr <= 0x04; addr++) {
+            dd->write(addr, value);
+        }
+    }
+
+private:
+    DeviceDriver* dd;
 };
