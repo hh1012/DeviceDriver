@@ -26,8 +26,6 @@ TEST_F(DeviceDriverFixture, FiveRead) {
 
 TEST_F(DeviceDriverFixture, FiveReadWithSameValue) {
 	// TODO : replace hardware with a Test Double
-	FlashMock mock;
-	DeviceDriver driver{ &mock };
 
 	unsigned char expected = 0x1;
 	EXPECT_CALL(mock, read((long)0xFF))
@@ -40,8 +38,6 @@ TEST_F(DeviceDriverFixture, FiveReadWithSameValue) {
 
 TEST_F(DeviceDriverFixture, FiveReadWithDifferentValue) {
 	// TODO : replace hardware with a Test Double
-	FlashMock mock;
-	DeviceDriver driver{ &mock };
 
 	unsigned char expected1 = 0x1;
 	unsigned char expected2 = 0x2;
@@ -57,6 +53,10 @@ TEST_F(DeviceDriverFixture, FiveReadWithDifferentValue) {
 		.WillOnce(Return(expected5));
 
 	EXPECT_THROW(driver.read((long)0xFF), ReadFailException);
+}
+
+TEST_F(DeviceDriverFixture, Write) {
+
 }
 
 int main() {
