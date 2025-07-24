@@ -1,5 +1,7 @@
 #pragma once
 #include "flash_memory_device.h"
+#include <stdexcept>
+
 
 class DeviceDriver
 {
@@ -10,4 +12,8 @@ public:
 
 protected:
     FlashMemoryDevice* m_hardware;
+};
+
+class ReadFailException : public std::exception {
+public:
 };
